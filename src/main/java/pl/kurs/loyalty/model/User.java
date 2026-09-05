@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import pl.kurs.loyalty.dto.request.UpdateUserRequest;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -43,6 +44,12 @@ public class User {
 
     public void removeMembership(Membership membership) {
         memberships.remove(membership);
+    }
+
+    public void update(UpdateUserRequest updateUserRequest) {
+        this.name = updateUserRequest.name();
+        this.lastName = updateUserRequest.lastName();
+        this.email = updateUserRequest.email();
     }
 
     @Override
