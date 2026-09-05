@@ -33,6 +33,15 @@ public class LoyaltyProgram {
     @OneToMany(mappedBy = "program", cascade = CascadeType.ALL)
     private List<Reward> rewards;
 
+    public void addMembership(Membership membership) {
+        members.add(membership);
+        membership.setProgram(this);
+    }
+
+    public void removeMembership(Membership membership) {
+        members.remove(membership);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

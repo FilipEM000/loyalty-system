@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import pl.kurs.loyalty.model.Membership;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface MembershipJpaRepository extends JpaRepository<Membership, Long> {
     boolean existsByUserIdAndProgramId(Long userId, Long programId);
@@ -22,4 +23,6 @@ public interface MembershipJpaRepository extends JpaRepository<Membership, Long>
             "WHERE m.program.id = :programId " +
             "ORDER BY totalPoints DESC")
     List<LeaderboardEntry> findProgramLeaderboard(@Param("programId") Long programId, Pageable pageable);
+
+    Optional<Membership> findByUserIdAndProgramId(Long userId, Long programId);
 }

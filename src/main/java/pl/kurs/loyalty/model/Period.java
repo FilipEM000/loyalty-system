@@ -2,6 +2,7 @@ package pl.kurs.loyalty.model;
 
 import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.Future;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.IdGeneratorType;
