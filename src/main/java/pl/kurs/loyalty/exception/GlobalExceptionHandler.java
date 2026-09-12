@@ -1,6 +1,7 @@
 package pl.kurs.loyalty.exception;
 
 import jakarta.validation.ConstraintViolationException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -10,11 +11,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(BusinessException.class)
     public ProblemDetail handleBusinessException(BusinessException exception) {
+        log.warn("Business exception occurred: {} (Code: {})", exception.getMessage(), exception.getErrorCode());
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(exception.getHttpStatus(), exception.getMessage());
 
         problemDetail.setProperty("errorCode", exception.getErrorCode());
@@ -52,6 +55,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ProblemDetail handleGenericException(Exception exception) {
+        log.error("Unexpected error occurred: ", exception);
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, "Unexpected error occurred");
         problemDetail.setProperty("errorCode", "INTERNAL_SERVER_ERROR");
         problemDetail.setProperty("timestamp", LocalDateTime.now());

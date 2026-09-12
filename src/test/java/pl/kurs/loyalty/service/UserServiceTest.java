@@ -7,9 +7,9 @@ import org.mapstruct.factory.Mappers;
 import org.mockito.Mockito;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import pl.kurs.loyalty.dto.request.CreateUserRequest;
+import pl.kurs.loyalty.dto.request.create.CreateUserRequest;
 import pl.kurs.loyalty.dto.request.GetPageRequest;
-import pl.kurs.loyalty.dto.request.UpdateUserRequest;
+import pl.kurs.loyalty.dto.request.update.UpdateUserRequest;
 import pl.kurs.loyalty.dto.response.PageResponse;
 import pl.kurs.loyalty.dto.response.ProgramSummaryResponse;
 import pl.kurs.loyalty.dto.response.UserResponse;
@@ -149,7 +149,7 @@ public class UserServiceTest {
         assertThatExceptionOfType(ProgramExpiredException.class)
                 .isThrownBy(() -> userService.createUser(createUserRequest))
                 .extracting(ProgramExpiredException::getMessage)
-                .isEqualTo("Loyalty program already expired");
+                .isEqualTo("Loyalty program expired");
         verify(membershipJpaRepository, never()).save(any());
     }
 
@@ -249,7 +249,7 @@ public class UserServiceTest {
         assertThatExceptionOfType(ProgramExpiredException.class)
                 .isThrownBy(() -> userService.assignProgram(0L, 0L))
                 .extracting(ProgramExpiredException::getMessage)
-                .isEqualTo("Loyalty program already expired");
+                .isEqualTo("Loyalty program expired");
         verify(membershipJpaRepository, never()).save(any());
     }
 

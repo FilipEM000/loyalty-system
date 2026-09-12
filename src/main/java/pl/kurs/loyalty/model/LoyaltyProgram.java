@@ -6,13 +6,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import pl.kurs.loyalty.dto.request.update.UpdateLoyaltyProgramRequest;
 
 import java.util.List;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "loyaltyPrograms")
+@Table(name = "programs")
 @NoArgsConstructor
 @AllArgsConstructor
 public class LoyaltyProgram {
@@ -40,6 +41,23 @@ public class LoyaltyProgram {
 
     public void removeMembership(Membership membership) {
         members.remove(membership);
+    }
+
+    public void addRule(EarningRule earningRule) {
+        this.earningRules.add(earningRule);
+        earningRule.setProgram(this);
+    }
+
+    public void addReward(Reward reward) {
+        this.rewards.add(reward);
+        reward.setProgram(this);
+    }
+
+    public void update(UpdateLoyaltyProgramRequest updateLoyaltyProgramRequest) {
+        this.name = updateLoyaltyProgramRequest.name();
+        this.description = updateLoyaltyProgramRequest.description();
+        this.validityPeriod.setStartDate(updateLoyaltyProgramRequest.startDate());
+        this.validityPeriod.setEndDate(updateLoyaltyProgramRequest.endDate());
     }
 
     @Override
