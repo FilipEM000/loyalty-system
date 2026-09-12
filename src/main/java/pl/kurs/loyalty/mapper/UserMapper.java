@@ -3,7 +3,7 @@ package pl.kurs.loyalty.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import pl.kurs.loyalty.config.MapperCentralConfig;
-import pl.kurs.loyalty.dto.request.CreateUserRequest;
+import pl.kurs.loyalty.dto.request.create.CreateUserRequest;
 import pl.kurs.loyalty.dto.response.ProgramSummaryResponse;
 import pl.kurs.loyalty.dto.response.UserResponse;
 import pl.kurs.loyalty.model.Membership;

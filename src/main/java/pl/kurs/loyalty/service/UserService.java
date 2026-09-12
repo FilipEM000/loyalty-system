@@ -2,12 +2,13 @@ package pl.kurs.loyalty.service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
-import pl.kurs.loyalty.dto.request.CreateUserRequest;
+import pl.kurs.loyalty.dto.request.create.CreateUserRequest;
 import pl.kurs.loyalty.dto.request.GetPageRequest;
-import pl.kurs.loyalty.dto.request.UpdateUserRequest;
+import pl.kurs.loyalty.dto.request.update.UpdateUserRequest;
 import pl.kurs.loyalty.dto.response.PageResponse;
 import pl.kurs.loyalty.dto.response.ProgramSummaryResponse;
 import pl.kurs.loyalty.dto.response.UserResponse;
@@ -24,6 +25,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class UserService {
     private final UserJpaRepository userJpaRepository;
@@ -44,6 +46,7 @@ public class UserService {
 
     @Transactional
     public UserResponse createUser(CreateUserRequest createUserRequest) {
+        log.info("Attempting to create new user with email: {}", createUserRequest.email());
         try {
             User user = userMapper.mapToEntity(createUserRequest);
             User saved = userJpaRepository.save(user);
@@ -61,6 +64,7 @@ public class UserService {
                 saved.addMembership(membership);
                 program.addMembership(membership);
                 membershipJpaRepository.save(membership);
+                log.info("Successfully created user with ID: {}", saved.getId());
             }
 
             return userMapper.mapToResponse(saved);
@@ -70,14 +74,18 @@ public class UserService {
     }
 
     public void updateUser(UpdateUserRequest updateUserRequest, Long id) {
+        log.info("Attempting to update user with ID: {}", id);
         User user = findUserById(id);
         user.update(updateUserRequest);
         userJpaRepository.save(user);
+        log.info("Successfully updated user with ID: {}", id);
     }
 
     public void deleteUser(Long id) {
+        log.info("Attempting to delete user with ID: {}", id);
         User user = findUserById(id);
         userJpaRepository.delete(user);
+        log.info("Successfully deleted user with ID: {}", id);
     }
 
     public List<ProgramSummaryResponse> getAllUserPrograms(Long id) {
@@ -88,6 +96,7 @@ public class UserService {
     }
 
     public void assignProgram(Long userId, Long programId) {
+        log.info("Attempting to assign user ID: {} to program ID: {}", userId, programId);
         User user = findUserById(userId);
         LoyaltyProgram program = loyaltyProgramJpaRepository.findById(programId)
                 .orElseThrow(() -> new ProgramNotFoundException(programId));
@@ -105,9 +114,11 @@ public class UserService {
         user.addMembership(membership);
         program.addMembership(membership);
         membershipJpaRepository.save(membership);
+        log.info("Successfully assigned user ID: {} to program ID: {}", userId, programId);
     }
 
     public void unassignProgram(Long userId, Long programId) {
+        log.info("Attempting to unassign user ID: {} from program with ID: {}", userId, programId);
         Membership membership = membershipJpaRepository.findByUserIdAndProgramId(userId, programId)
                 .orElseThrow(MembershipNotFoundException::new);
 
@@ -121,6 +132,7 @@ public class UserService {
         user.removeMembership(membership);
         program.removeMembership(membership);
         membershipJpaRepository.delete(membership);
+        log.info("Successfully unassigned user ID: {} from program with ID: {}", userId, programId);
     }
 
     private User findUserById(Long id) {

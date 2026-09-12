@@ -6,11 +6,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import pl.kurs.loyalty.dto.request.update.UpdateEarningRuleRequest;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "earning_rules", uniqueConstraints = @UniqueConstraint(columnNames = {"program_id", "event_type"}))
+@Table(name = "earning-rules", uniqueConstraints = @UniqueConstraint(columnNames = {"program_id", "event_type"}))
 @NoArgsConstructor
 @AllArgsConstructor
 public class EarningRule {
@@ -27,6 +28,14 @@ public class EarningRule {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "program_id")
     private LoyaltyProgram program;
+
+    public void update(UpdateEarningRuleRequest updateEarningRuleRequest) {
+        this.name = updateEarningRuleRequest.name();
+        this.eventType = updateEarningRuleRequest.eventType();
+        this.numberOfPoints = updateEarningRuleRequest.numberOfPoints();
+        this.validityPeriod.setStartDate(updateEarningRuleRequest.startDate());
+        this.validityPeriod.setEndDate(updateEarningRuleRequest.endDate());
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import pl.kurs.loyalty.dto.request.update.UpdateRewardRequest;
 
 @Getter
 @Setter
@@ -25,10 +26,20 @@ public class Reward {
     private Integer cost;
     @Embedded
     private Period validityPeriod;
+    private Integer availableQuantity;
     private boolean active;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "program_id")
     private LoyaltyProgram program;
+
+    public void update(UpdateRewardRequest updateRewardRequest) {
+        this.name = updateRewardRequest.name();
+        this.description = updateRewardRequest.description();
+        this.cost = updateRewardRequest.cost();
+        this.availableQuantity = updateRewardRequest.availableQuantity();
+        this.validityPeriod.setStartDate(updateRewardRequest.startDate());
+        this.validityPeriod.setEndDate(updateRewardRequest.endDate());
+    }
 
     @Override
     public boolean equals(Object o) {
