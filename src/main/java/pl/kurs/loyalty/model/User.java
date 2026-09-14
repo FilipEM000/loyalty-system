@@ -44,6 +44,7 @@ public class User {
 
     public void removeMembership(Membership membership) {
         memberships.remove(membership);
+        membership.setUser(null);
     }
 
     public void update(UpdateUserRequest updateUserRequest) {

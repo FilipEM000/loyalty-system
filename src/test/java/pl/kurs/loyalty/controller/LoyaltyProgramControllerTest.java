@@ -99,7 +99,7 @@ public class LoyaltyProgramControllerTest {
         mockMvc.perform(post("/programs")
                         .content(objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(0))
                 .andExpect(jsonPath("$.name").value("test_name"));
         verify(loyaltyProgramService).createProgram(request);

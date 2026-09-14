@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import pl.kurs.loyalty.model.PointsTransaction;
 
 public interface PointsTransactionJpaRepository extends JpaRepository<PointsTransaction, Long> {
-    Page<PointsTransaction> findByMembership_IdOrderByDateOfTransactionDesc(Long membershipId, Pageable pageable);
+    Page<PointsTransaction> findByMembershipUserIdOrderByDateOfTransactionDesc(Long membershipId, Pageable pageable);
 }
