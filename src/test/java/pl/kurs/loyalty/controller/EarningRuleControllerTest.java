@@ -77,7 +77,7 @@ public class EarningRuleControllerTest {
 
     @Test
     void getById_ruleNotFound_returns404() throws Exception {
-        when(earningRuleService.getRuleById(99L)).thenThrow(new EarningRuleNotFoundException(99L));
+        when(earningRuleService.getRuleById(99L)).thenThrow(new EarningRuleNotFoundException());
 
         mockMvc.perform(get("/earning-rules/99"))
                 .andExpect(status().isNotFound())
@@ -95,7 +95,7 @@ public class EarningRuleControllerTest {
         mockMvc.perform(post("/programs/0/earning-rules")
                         .content(objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(0))
                 .andExpect(jsonPath("$.name").value("test_rule_name"))
                 .andExpect(jsonPath("$.numberOfPoints").value(10));

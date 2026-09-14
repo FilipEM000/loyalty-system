@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import pl.kurs.loyalty.dto.request.create.CreateEarningRuleRequest;
 import pl.kurs.loyalty.dto.request.update.UpdateEarningRuleRequest;
 import pl.kurs.loyalty.dto.response.EarningRuleResponse;
-import pl.kurs.loyalty.dto.response.PageResponse;
 import pl.kurs.loyalty.exception.EarningRuleNotFoundException;
 import pl.kurs.loyalty.exception.ProgramExpiredException;
 import pl.kurs.loyalty.exception.ProgramNotFoundException;
@@ -73,7 +72,7 @@ public class EarningRuleService {
 
     private EarningRule findRuleById(Long ruleId) {
         return earningRuleJpaRepository.findById(ruleId)
-                .orElseThrow(() -> new EarningRuleNotFoundException(ruleId));
+                .orElseThrow(EarningRuleNotFoundException::new);
     }
 
     private LoyaltyProgram findProgramById(Long programId) {

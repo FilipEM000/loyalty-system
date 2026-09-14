@@ -105,7 +105,7 @@ public class UserControllerTest {
         mockMvc.perform(post("/users")
                         .content(objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(0))
                 .andExpect(jsonPath("$.name").value("test_name"))
                 .andExpect(jsonPath("$.lastName").value("test_lastName"))

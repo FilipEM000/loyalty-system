@@ -41,6 +41,7 @@ public class LoyaltyProgram {
 
     public void removeMembership(Membership membership) {
         members.remove(membership);
+        membership.setProgram(null);
     }
 
     public void addRule(EarningRule earningRule) {

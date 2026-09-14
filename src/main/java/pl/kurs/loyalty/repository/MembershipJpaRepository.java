@@ -24,5 +24,7 @@ public interface MembershipJpaRepository extends JpaRepository<Membership, Long>
             "ORDER BY totalPoints DESC")
     List<LeaderboardEntry> findProgramLeaderboard(@Param("programId") Long programId, Pageable pageable);
 
+    List<Membership> findAllByUserId(Long userId);
+
     Optional<Membership> findByUserIdAndProgramId(Long userId, Long programId);
 }

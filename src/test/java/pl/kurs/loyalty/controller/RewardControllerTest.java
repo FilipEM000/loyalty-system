@@ -93,7 +93,7 @@ public class RewardControllerTest {
         mockMvc.perform(post("/programs/{programId}/rewards", 0L)
                         .content(objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(0))
                 .andExpect(jsonPath("$.name").value("test_reward_name"))
                 .andExpect(jsonPath("$.cost").value(100))
